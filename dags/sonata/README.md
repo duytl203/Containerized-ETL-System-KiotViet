@@ -1,8 +1,10 @@
 **Step 1:**
 Create the corresponding tables in the **table_attributes.json**:
 
-•  **customers,products,categories,branches,invoices**: The tables I will create in pgadmin4 as well as the features I will call from kiotviet's API
+•  **customers,products,categories,branches,invoices**: The tables I will create in pgadmin4 as well as the features I will call from kiotviet's API.
+
 •  **attribute**: The variables I will call from the kiotviet API to correspond to the above tables.
+
 •  **column,attribute_type**: The variables Iwill create in pgadmin4 to correspond to the above tables.
 
 **Step 2:**
