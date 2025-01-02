@@ -1,0 +1,27 @@
+{
+    "customers": {
+      "attribute": ["code", "name", "createdDate", "modifiedDate"],
+      "attribute_type": ["string", "string", "timestamp", "timestamp"],
+      "column": ["customer_id", "customer_name", "created_date", "updated_date"]
+    },
+    "products": {
+      "attribute": ["code", "name", "categoryId", "basePrice", "createdDate", "unit", "modifiedDate"],
+      "attribute_type": ["string", "string", "numeric", "numeric", "timestamp", "string", "timestamp"],
+      "column": ["id", "name", "category_id", "original_price", "created_date", "unit", "updated_date"]
+    },
+    "categories": {
+      "attribute": ["categoryId", "categoryName", "createdDate", "modifiedDate"],
+      "attribute_type": ["numeric", "string", "timestamp", "timestamp"],
+      "column": ["id", "name", "created_date", "updated_date"]
+    },
+    "branches": {
+      "attribute": ["id", "branchName", "address", "locationName", "contactNumber", "createdDate", "modifiedDate"],
+      "attribute_type": ["string", "string", "string", "string", "string", "timestamp", "timestamp"],
+      "column": ["id", "name", "address", "location_name", "contact_number", "created_date", "updated_date"]
+    },
+    "invoices": {
+      "attribute": ["code", "createdDate", "branchId", "soldByName", "total", "totalPayment", "statusValue", "modifiedDate", "invoiceDetails"],
+      "attribute_type": ["string", "timestamp", "numeric", "string", "numeric", "numeric", "string", "timestamp", "string"],
+      "column": ["id", "created_date", "branch_id", "staff_name", "revenue", "total_payment", "statusValue", "updated_date", "invoiceDetails"]
+    }
+  }
