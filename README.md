@@ -24,6 +24,8 @@ Linux, Postman.
 
 # Instructions for use:  
 • Install your **airflow** with the following:
+
 sudo chmod +x start.sh
+
 ./start.sh
 
