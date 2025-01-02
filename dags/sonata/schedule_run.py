@@ -6,10 +6,12 @@ from pathlib import Path
 import base_code,json
 
 portal = Path(__file__).parent.name
-# Đọc dữ liệu từ file JSON
+
+# Read data from JSON:
 with open(f'/opt/airflow/dags/{portal}/table_attributes.json', 'r') as file:
     table_configs = json.load(file)
-
+    
+# Where you need to push access_token and retailcode of your business:
 access_token, retailer = getattr(__import__(portal), 'secret_file').get_access_token()
 
 db_url = getattr(__import__(portal), 'secret_file').get_db_url()
@@ -23,12 +25,12 @@ default_args = {
 
 dags = {}
 
-# Duyệt qua từng mục trong JSON để tạo DAGs
+# Iterate through each item in the JSON to create DAGs
 for key, config in table_configs.items():
-    # Lấy thông tin từ JSON
+    # Get Information from Json
     table_name = key
     schedule_interval = config['schedule_interval']
-    # Tạo DAG cho từng mục
+    # Create Dags:
     dag = DAG(
         f'sonata_{table_name}',
         default_args=default_args,
@@ -38,7 +40,7 @@ for key, config in table_configs.items():
         start_date=datetime(2025, 1, 1),
     )
 
-    # Định nghĩa các tasks
+    # Definition of tasks:
     insert_task_operator = PythonOperator(
         task_id=f'insert_{table_name}_task',
         python_callable=base_code.get_information,
@@ -53,12 +55,12 @@ for key, config in table_configs.items():
         dag=dag,
     )
 
-    # Định nghĩa quan hệ giữa các tasks
+    # Define relationships between tasks
     insert_task_operator >> etl_task_operator
 
-    # Thêm DAG vào dictionary
+    # Add DAG to dictionary
     dags[f'sonata_{table_name}'] = dag
 
-# Đăng ký các DAGs với Airflow
+# Register DAGs with Airflow
 globals().update(dags)
 
