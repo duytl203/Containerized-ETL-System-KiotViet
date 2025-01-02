@@ -18,4 +18,4 @@ modes (Daily, Backfill).
 • Execute data quality checks.
 
 • Toolkit: Python, DBEaver, VirtualBox,
-Linux, Telegram API, Postman.
+Linux, Postman.
