@@ -11,7 +11,7 @@ portal = Path(__file__).parent.name
 with open(f'/opt/airflow/dags/{portal}/table_attributes.json', 'r') as file:
     table_configs = json.load(file)
     
-# Where you need to push access_token and retailcode of your business:
+# Where you need to push access_token and retailcode of your business and DB URL of where you store your datasets:
 access_token, retailer = getattr(__import__(portal), 'secret_file').get_access_token()
 
 db_url = getattr(__import__(portal), 'secret_file').get_db_url()
