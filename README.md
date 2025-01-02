@@ -23,6 +23,10 @@ sudo chmod +x start.sh
 
 • Read README.md in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
 
+# Contact Information:
+**Phone Number**: +84799335499
+
+**Email**: tlduy203@gmail.com
 
 
 
