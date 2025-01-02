@@ -10,4 +10,4 @@ Create the corresponding tables in the **table_attributes.json**:
    * **schedule_interval**: The running time corresponds to the dag in **Airflow**
 
 **Step 2:**
-Create all tables in pgadmin4 with create_table.sql
+You can do the same with other portals, just change the name in the Sonata folder to the names you want and provide **access_token**, **retail_code**, **db url** information in **schedule_run.py**
