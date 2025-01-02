@@ -27,5 +27,8 @@ Linux, Postman.
 
 sudo chmod +x start.sh
 
+• Read README.md in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
+
+
 ./start.sh
 
