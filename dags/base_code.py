@@ -1,12 +1,12 @@
 import pandas as pd
-import json,requests
+import json, requests
 import sonata.secret_file
 from sqlalchemy import create_engine, text
 from datetime import datetime
 
 def extract_product_details(invoice_details):
     try:
-        # Thay dấu nháy đơn thành dấu nháy kép và kiểm tra chuỗi JSON
+        # Replace single quotes with double quotes and check the JSON string
         if invoice_details:
             invoice_details = invoice_details.replace("'", "\"")
             products = json.loads(invoice_details)
@@ -24,12 +24,12 @@ def extract_product_details(invoice_details):
         else:
             return []
     except json.JSONDecodeError as e:
-        return []  # Trả về danh sách rỗng nếu gặp lỗi JSON
+        return []  # Return an empty list if a JSON error occurs
     except Exception as e:
         return []
 
 
-def get_information(table_name, portal, config,access_token,retailer):
+def get_information(table_name, portal, config, access_token, retailer):
     
     attributes = config['attribute']
     attribute_types = config['attribute_type']
@@ -45,7 +45,7 @@ def get_information(table_name, portal, config,access_token,retailer):
     api_endpoint = f'https://publicfnb.kiotapi.com/{table_name}'
     headers = {
         'Authorization': f'Bearer {access_token}',
-        'Retailer': retailer  # Thay thế bằng mã nhà bán lẻ của bạn
+        'Retailer': retailer  # Replace with your retailer code
     }
 
     try:
@@ -61,31 +61,31 @@ def get_information(table_name, portal, config,access_token,retailer):
                     df[column] = df[column].astype(str)
                 elif dtype == 'numeric':
                     df[column] = df[column].astype(float).fillna(0)    
-            return df.rename(columns=rename_mapping).sort_values('updated_date'),table_name
+            return df.rename(columns=rename_mapping).sort_values('updated_date'), table_name
         else:
             print(f"Error {response.status_code}: {response.text}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def insert_or_update_single(table_name, portal, config,access_token,retailer,db_url):
-    # Lấy danh sách cột từ DataFrame
-    df, table_name = get_information(table_name, portal, config,access_token,retailer)
+def insert_or_update_single(table_name, portal, config, access_token, retailer, db_url):
+    # Get the list of columns from the DataFrame
+    df, table_name = get_information(table_name, portal, config, access_token, retailer)
     columns = df.columns.tolist()
-    # Tạo kết nối tới PostgreSQL
+    # Create a connection to PostgreSQL
     engine = create_engine(db_url)
     if 'invoiceDetails' in columns:
         df['invoiceDetails'] = df['invoiceDetails'].apply(extract_product_details)
         df['invoiceDetails'] = df['invoiceDetails'].apply(json.dumps)
     try:
         with engine.connect() as conn:
-            # Tạo câu SQL chèn hoặc cập nhật
+            # Create the SQL insert or update statement
             insert_update_sql = f"""
                 INSERT INTO public.{table_name} ({', '.join(columns)}) 
                 VALUES ({', '.join([f':{col}' for col in columns])})
-                ON CONFLICT ({columns[0]}) -- Giả định cột đầu tiên là PRIMARY KEY
+                ON CONFLICT ({columns[0]}) -- Assuming the first column is the PRIMARY KEY
                 DO UPDATE SET {', '.join([f'{col} = EXCLUDED.{col}' for col in columns[1:]])}
             """
-            # Lặp qua từng dòng của DataFrame
+            # Iterate through each row of the DataFrame
             for _, row in df.iterrows():
                 values = {col: row[col] for col in columns}
                 conn.execute(text(insert_update_sql), values)
