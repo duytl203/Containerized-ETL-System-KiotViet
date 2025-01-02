@@ -27,6 +27,6 @@
       "attribute": ["code", "createdDate", "branchId", "soldByName", "total", "totalPayment", "statusValue", "modifiedDate", "invoiceDetails"],
       "attribute_type": ["string", "timestamp", "numeric", "string", "numeric", "numeric", "string", "timestamp", "string"],
       "column": ["id", "created_date", "branch_id", "staff_name", "revenue", "total_payment", "statusValue", "updated_date", "invoiceDetails"],
-      "schedule_interval": "0 7 * * *"
+      "schedule_interval": "0 */3 * * *"
     }
   }
