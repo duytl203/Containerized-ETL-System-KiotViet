@@ -2,7 +2,7 @@
 mkdir -p ./dags ./logs ./plugins ./config
 
 # Optional env variables
-echo -e "AIRFLOW_UID=50000" > /home/duytl/airflow_config/.env
+echo -e "AIRFLOW_UID=50000" > .env
 
 # Build docker image
 sudo docker build -t airflow_config:local -f Dockerfile .
