@@ -14,5 +14,4 @@ RUN apt-get install -y openjdk-17-jdk
 USER airflow
 
 # Install python deps
-RUN pip3 install apache-airflow-providers-apache-spark 
-RUN pip3 install apache-airflow-providers-postgres
+RUN pip3 install -r adfuel_ftp_requirements.txt
