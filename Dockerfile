@@ -1,8 +1,5 @@
 FROM apache/airflow:2.10.0 
 
-# Optional env variables
-ENV AIRFLOW_UID=50000
-
 # Switch user to root
 USER root
 
