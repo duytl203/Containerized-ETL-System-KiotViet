@@ -25,17 +25,17 @@ This is a side project I am working on for my uncle, aiming to manage data more 
 
 # Getting Started:  
 
-• Prerequisites: Install Docker and Docker Compose (**Ubuntu version 20.04** Recommended!)
+• **Prerequisites**: Install Docker and Docker Compose (**Ubuntu version 20.04** Recommended!)
 
-• Install your **airflow** with the following:
+• **Install** your **Airflow** with the following:
 
 sudo chmod +x start.sh
 
 ./start.sh
 
-• Access Airflow UI: Open your web browser and go to http://localhost:8080 to view and manage Airflow DAGs.
+• Access **Airflow UI**: Open your web browser and go to http://localhost:8080 to view and manage Airflow DAGs.
 
-• Read README.md in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
+• Read **README.md** in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
 
 # Contact Information:
 **Phone Number**: +84799335499
