@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/797bfab9-a3f2-4b51-89d8-dfa35961abb0)
 # Containerized-ETL-System
 This is a side project I am working on for my uncle, aiming to manage data more efficiently and sustainably in the long term.
 
