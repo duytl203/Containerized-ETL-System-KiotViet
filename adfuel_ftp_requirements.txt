@@ -1,0 +1,3 @@
+# Install python deps
+apache-airflow-providers-apache-spark 
+apache-airflow-providers-postgres
