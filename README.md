@@ -16,8 +16,11 @@ This is a side project I am working on for my uncle, aiming to manage data more 
 # Technologies Used:
 
 • **ETL**: Airflow, Spark
+
 • **Containerization**: Docker
+
 • **Storage**: PgAdmin4
+
 • **Other**: Python, Bash, POS system API (kiotviet)
 
 # Getting Started:  
