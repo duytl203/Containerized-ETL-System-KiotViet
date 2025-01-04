@@ -13,34 +13,26 @@ This is a side project I am working on for my uncle, aiming to manage data more 
 
 • Execute data quality checks.
 
-# Technologies Used:
+• Toolkit: Python, DBEaver, VirtualBox, Linux, Postman.
 
-• **ETL**: Airflow, Spark
-
-• **Containerization**: Docker
-
-• **Storage**: PgAdmin4
-
-• **Other**: Python, Bash, POS system API (kiotviet)
-
-# Getting Started:  
-
-• **Prerequisites**: Install Docker and Docker Compose (**Ubuntu version 20.04** Recommended!)
-
-• **Install** your **Airflow** with the following:
+# Instructions for use:  
+• Install your **airflow** with the following:
 
 sudo chmod +x start.sh
 
 ./start.sh
 
-• Access **Airflow UI**: Open your web browser and go to http://localhost:8080 to view and manage Airflow DAGs.
+• Log in UI with username:**airflow** and password: **airflow**.
 
-• Read **README.md** in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
+• Read README.md in dags/sonata to build your pipeline to integrate data from **KiotViet** to **PostgreSQL**.
 
 # Contact Information:
 **Phone Number**: +84799335499
 
 **Email**: tlduy203@gmail.com
+
+
+
 
 
 
