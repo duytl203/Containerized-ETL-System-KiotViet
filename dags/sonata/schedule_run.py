@@ -3,14 +3,14 @@ from airflow.operators.python import PythonOperator
 from airflow.operators.dummy import DummyOperator
 from datetime import datetime
 from pathlib import Path
-import base_code,json
+import base_code, json
 
 portal = Path(__file__).parent.name
 
 # Read data from JSON:
 with open(f'/opt/airflow/dags/{portal}/table_attributes.json', 'r') as file:
     table_configs = json.load(file)
-    
+
 # Where you need to push access_token and retailcode of your business and DB URL of where you store your datasets:
 access_token, retailer = getattr(__import__(portal), 'secret_file').get_access_token()
 
@@ -29,8 +29,9 @@ dags = {}
 for key, config in table_configs.items():
     # Get Information from Json
     table_name = key
-    schedule_interval = config['schedule_interval']
-    # Create Dags:
+    schedule_interval = config.get('schedule_interval', None)
+    
+        # Create Dags:
     dag = DAG(
         f'sonata_{table_name}',
         default_args=default_args,
@@ -40,18 +41,18 @@ for key, config in table_configs.items():
         start_date=datetime(2025, 1, 1),
     )
 
-    # Definition of tasks:
+        # Definition of tasks:
     insert_task_operator = PythonOperator(
         task_id=f'insert_{table_name}_task',
         python_callable=base_code.get_information,
-        op_args=[table_name, portal, config,access_token,retailer],
+        op_args=[table_name, portal, config, access_token, retailer],
         dag=dag,
     )
 
     etl_task_operator = PythonOperator(
         task_id=f'etl_{table_name}_task',
         python_callable=base_code.insert_or_update_single,
-        op_args=[table_name, portal, config,access_token,retailer,db_url],
+        op_args=[table_name, portal, config, access_token, retailer, db_url],
         dag=dag,
     )
 
@@ -63,4 +64,3 @@ for key, config in table_configs.items():
 
 # Register DAGs with Airflow
 globals().update(dags)
-
