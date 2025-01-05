@@ -4,36 +4,42 @@ import sonata.secret_file
 from sqlalchemy import create_engine, text
 from datetime import datetime
 
-def extract_product_details(invoice_details):
+def extract_product_details(invoice_details,column_mapping):
     try:
-        # Replace single quotes with double quotes and check the JSON string
-        if invoice_details:
-            invoice_details = invoice_details.replace("'", "\"")
-            products = json.loads(invoice_details)
-            
-            extracted_data = []
-            for product in products:
-                extracted_data.append({
-                    'product_id': product.get('productCode'),
-                    'name': product.get('productName'),
-                    'line_item_quantity': product.get('quantity'),
-                    'line_item_sale_price': product.get('price'),
-                    'line_item_rounded_amount': product.get('subTotal'),
-                })
-            return extracted_data
-        else:
+        # Check if invoice_details is not None or empty
+        if not invoice_details:
             return []
-    except json.JSONDecodeError as e:
-        return []  # Return an empty list if a JSON error occurs
+
+        # Replace single quotes with double quotes for valid JSON parsing
+        invoice_details = invoice_details.replace("'", "\"")
+
+        # Parse the JSON string
+        products = json.loads(invoice_details)
+
+        # Extract and map product details
+        extracted_data = []
+        for product in products:
+            mapped_product = {
+                column_mapping[key]: product.get(key)
+                for key in column_mapping.keys()
+                if key in product
+            }
+            extracted_data.append(mapped_product)
+
+        return extracted_data
+
+    except json.JSONDecodeError:
+        # Handle JSON parsing errors
+        return []
     except Exception as e:
+        # Handle unexpected errors
         return []
 
 
 def get_information(table_name, portal, config, access_token, retailer):
-    
-    attributes = config['attribute']
-    attribute_types = config['attribute_type']
-    columns = config['column']
+    attributes = config['kiotviet_column']
+    attribute_types = config['postgresql_data_type']
+    columns = config['postgresql_column']
 
     rename_mapping = dict(zip(attributes, columns))
     column_types = dict(zip(attributes, attribute_types))
@@ -54,13 +60,19 @@ def get_information(table_name, portal, config, access_token, retailer):
             tables = response.json()
             data = tables['data']   
             df = pd.DataFrame(data, columns=attributes)
+            
             for column, dtype in column_types.items():
                 if dtype == 'timestamp':
                     df[column] = pd.to_datetime(df[column], errors='coerce').fillna(pd.Timestamp.now())
-                elif dtype == 'string':
+                elif dtype in ('string','jsonb'):
                     df[column] = df[column].astype(str)
                 elif dtype == 'numeric':
-                    df[column] = df[column].astype(float).fillna(0)    
+                    df[column] = df[column].astype(float).fillna(0)   
+
+            if 'invoiceDetails' in columns:
+                mapping_config = config.get('invoices_detail', {})
+                df['invoiceDetails'] = df['invoiceDetails'].apply(lambda details: extract_product_details(details, mapping_config))
+                df['invoiceDetails'] = df['invoiceDetails'].apply(json.dumps)   
             return df.rename(columns=rename_mapping).sort_values('updated_date'), table_name
         else:
             print(f"Error {response.status_code}: {response.text}")
@@ -73,9 +85,6 @@ def insert_or_update_single(table_name, portal, config, access_token, retailer, 
     columns = df.columns.tolist()
     # Create a connection to PostgreSQL
     engine = create_engine(db_url)
-    if 'invoiceDetails' in columns:
-        df['invoiceDetails'] = df['invoiceDetails'].apply(extract_product_details)
-        df['invoiceDetails'] = df['invoiceDetails'].apply(json.dumps)
     try:
         with engine.connect() as conn:
             # Create the SQL insert or update statement
