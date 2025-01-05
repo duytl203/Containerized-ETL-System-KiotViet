@@ -11,4 +11,4 @@ RUN apt-get install -y openjdk-17-jdk
 USER airflow
 
 # Install python deps
-RUN pip3 install -r adfuel_ftp_requirements.txt
+RUN pip3 install -r pip_install_requirements.txt
