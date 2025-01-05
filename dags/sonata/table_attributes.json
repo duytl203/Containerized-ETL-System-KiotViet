@@ -1,32 +1,40 @@
 {
     "customers": {
-      "attribute": ["code", "name", "createdDate", "modifiedDate"],
-      "attribute_type": ["string", "string", "timestamp", "timestamp"],
-      "column": ["customer_id", "customer_name", "created_date", "updated_date"],
+      "kiotviet_column": ["code", "name", "createdDate", "modifiedDate"],
+      "postgresql_data_type": ["string", "string", "timestamp", "timestamp"],
+      "postgresql_column": ["id", "customer_name", "created_date", "updated_date"],
       "schedule_interval": "0 3 * * *"
     },
     "products": {
-      "attribute": ["code", "name", "categoryId", "basePrice", "createdDate", "unit", "modifiedDate"],
-      "attribute_type": ["string", "string", "numeric", "numeric", "timestamp", "string", "timestamp"],
-      "column": ["id", "name", "category_id", "original_price", "created_date", "unit", "updated_date"],
+      "kiotviet_column": ["code", "name", "categoryId", "basePrice", "createdDate", "unit", "modifiedDate"],
+      "postgresql_data_type": ["string", "string", "numeric", "numeric", "timestamp", "string", "timestamp"],
+      "postgresql_column": ["id", "name", "category_id", "original_price", "created_date", "unit", "updated_date"],
       "schedule_interval": "0 4 * * *"
     },
     "categories": {
-      "attribute": ["categoryId", "categoryName", "createdDate", "modifiedDate"],
-      "attribute_type": ["numeric", "string", "timestamp", "timestamp"],
-      "column": ["id", "name", "created_date", "updated_date"],
+      "kiotviet_column": ["categoryId", "categoryName", "createdDate", "modifiedDate"],
+      "postgresql_data_type": ["string", "string", "timestamp", "timestamp"],
+      "postgresql_column": ["id", "name", "created_date", "updated_date"],
       "schedule_interval": "0 5 * * *"
     },
     "branches": {
-      "attribute": ["id", "branchName", "address", "locationName", "contactNumber", "createdDate", "modifiedDate"],
-      "attribute_type": ["numeric", "string", "string", "string", "string", "timestamp", "timestamp"],
-      "column": ["id", "name", "address", "location_name", "contact_number", "created_date", "updated_date"],
+      "kiotviet_column": ["id", "branchName", "address", "locationName", "contactNumber", "createdDate", "modifiedDate"],
+      "postgresql_data_type": ["string", "string", "string", "string", "string", "timestamp", "timestamp"],
+      "postgresql_column": ["id", "name", "address", "location_name", "contact_number", "created_date", "updated_date"],
       "schedule_interval": "0 6 * * *"
     },
     "invoices": {
-      "attribute": ["code", "createdDate", "branchId", "soldByName", "total", "totalPayment", "statusValue", "modifiedDate", "invoiceDetails"],
-      "attribute_type": ["string", "timestamp", "numeric", "string", "numeric", "numeric", "string", "timestamp", "string"],
-      "column": ["id", "created_date", "branch_id", "staff_name", "revenue", "total_payment", "statusValue", "updated_date", "invoiceDetails"],
-      "schedule_interval": "0 */3 * * *"
+      "kiotviet_column": ["code", "createdDate", "branchId", "soldByName", "total", "totalPayment", "statusValue", "modifiedDate", "invoiceDetails"],
+      "postgresql_data_type": ["string", "timestamp", "numeric", "string", "numeric", "numeric", "string", "timestamp", "string"],
+      "postgresql_column": ["id", "created_date", "branch_id", "staff_name", "revenue", "total_payment", "status", "updated_date", "invoiceDetails"],
+      "schedule_interval": "0 */3 * * *",
+      "invoices_detail": {
+        "productCode": "product_id",
+        "productName": "name",
+        "quantity": "line_item_quantity",
+        "price": "line_item_sale_price",
+        "subTotal": "line_item_rounded_amount"
     }
   }
+  }
+
