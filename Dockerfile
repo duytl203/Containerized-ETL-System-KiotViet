@@ -11,4 +11,6 @@ RUN apt-get install -y openjdk-17-jdk
 USER airflow
 
 # Install python deps
+COPY pip_install_requirements.txt /app/
+WORKDIR /app
 RUN pip3 install -r pip_install_requirements.txt
