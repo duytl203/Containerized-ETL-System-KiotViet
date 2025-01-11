@@ -34,7 +34,6 @@
         "quantity": "line_item_quantity",
         "price": "line_item_sale_price",
         "subTotal": "line_item_rounded_amount"
+      }
     }
-  }
-  }
-
+}
